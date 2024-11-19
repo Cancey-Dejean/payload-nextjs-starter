@@ -5,7 +5,7 @@ import { getPayload } from "payload";
 export const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
   const payload = await getPayload({ config });
 
-  const result = await payload.find({
+  const pages = await payload.find({
     collection: "pages",
     limit: 1,
     where: {
@@ -13,25 +13,48 @@ export const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
         equals: slug,
       },
     },
+    select: {
+      id: true,
+      slug: true,
+      layout: true,
+      meta: true,
+    },
     draft: true,
   });
 
-  return result.docs?.[0] || null;
+  return pages.docs?.[0] || null;
 });
 
 export const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
-  const parsedSlug = decodeURIComponent(slug);
   const payload = await getPayload({ config });
 
-  const result = await payload.find({
+  const posts = await payload.find({
     collection: "posts",
     limit: 1,
     where: {
       slug: {
-        equals: parsedSlug,
+        equals: slug,
+      },
+    },
+    select: {
+      id: true,
+      createdBy: true,
+      _status: true,
+      layout: true,
+      createdAt: true,
+      updatedAt: true,
+      body: true,
+      slug: true,
+      meta: true,
+      title: true,
+      featuredImage: true,
+    },
+    populate: {
+      users: {
+        name: true,
       },
     },
   });
 
-  return result.docs?.[0] || null;
+  return posts.docs?.[0] || null;
 });

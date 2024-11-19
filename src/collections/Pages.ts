@@ -1,6 +1,7 @@
 import { Hero } from "@/blocks/Hero/schema";
 import { VERSION_INTERVAL } from "@/constants";
 import { slugGeneratorField } from "@/lib/fields/slugGeneratorField";
+
 import { CollectionConfig } from "payload";
 
 export const Pages: CollectionConfig = {
@@ -62,7 +63,6 @@ export const Pages: CollectionConfig = {
       label: "Layout",
       type: "blocks",
       blocks: [Hero],
-      required: true,
     },
   ],
 };

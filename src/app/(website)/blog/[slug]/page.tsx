@@ -32,7 +32,7 @@ export async function generateMetadata({
       title: title || "",
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_URL}/${(image as Media)?.url || ""}`,
+          url: `${process.env.NEXT_PUBLIC_SERVER_URL}/${(image as Media)?.url || ""}`,
         },
       ],
     },
@@ -59,6 +59,8 @@ export default async function PostPage({
   }
 
   const { featuredImage, title, createdAt, body } = post;
+
+  // console.log(post);
 
   return (
     <article className="prose max-w-full">

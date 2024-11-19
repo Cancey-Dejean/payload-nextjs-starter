@@ -3,6 +3,9 @@ import { Media, Page } from "@/payload-types";
 import { RenderSections } from "@/utils/renderSections";
 import { Metadata } from "next";
 import { queryPageBySlug } from "@/lib/queries";
+import { RefreshRouteOnSave as PayloadLivePreview } from "@payloadcms/live-preview-react";
+import AddContent from "@/utils/add-content";
+import { RenderBlocks } from "@/utils/renderBlocks";
 
 export async function generateMetadata({
   params,
@@ -25,7 +28,7 @@ export async function generateMetadata({
       title: title || "",
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_URL}/${(image as Media)?.url || ""}`,
+          url: `${process.env.NEXT_PUBLIC_SERVER_URL}/${(image as Media)?.url || ""}`,
         },
       ],
     },
@@ -52,7 +55,19 @@ export default async function PageContent({
     return notFound();
   }
 
-  const layout = page?.layout;
+  const layout = page?.layout || [];
 
-  return <>{layout?.map(RenderSections)}</>;
+  // console.log(layout);
+
+  return (
+    <>
+      {layout.length > 0 ? (
+        layout.map((section, index) => (
+          <RenderBlocks key={index} {...section} />
+        ))
+      ) : (
+        <AddContent />
+      )}
+    </>
+  );
 }

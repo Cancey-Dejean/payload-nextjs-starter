@@ -1,4 +1,4 @@
-import { ButtonProps } from "@/components/ui/button";
+import { ButtonProps } from "@/components/ui/Button";
 
 export type SimpleImage = {
   url: string;

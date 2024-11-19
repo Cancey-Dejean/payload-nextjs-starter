@@ -5,6 +5,7 @@ import { VERSION_INTERVAL } from "@/constants";
 import { isAdminOrCreatedBy } from "@/lib/access/isAdminOrCreatedBy";
 import { isAdminOrEditorOrCreatedBy } from "@/lib/access/isAdminOrEditorOrCreatedBy";
 import { slugGeneratorField } from "@/lib/fields/slugGeneratorField";
+
 import { CollectionConfig } from "payload";
 
 export const Posts: CollectionConfig = {

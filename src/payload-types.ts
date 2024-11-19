@@ -30,7 +30,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   globals: {
     header: Header;
@@ -46,9 +46,9 @@ export interface Config {
   user: User & {
     collection: 'users';
   };
-  jobs?: {
+  jobs: {
     tasks: unknown;
-    workflows?: unknown;
+    workflows: unknown;
   };
 }
 export interface UserAuthOperations {
@@ -74,10 +74,9 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   name?: string | null;
-  avatar?: (string | null) | Media;
-  role: 'admin' | 'user' | 'editor';
+  avatar?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -94,9 +93,8 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
-  _key?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -114,33 +112,35 @@ export interface Media {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: string;
+  id: number;
   title: string;
   slug: string;
-  layout: {
-    headline?: string | null;
-    text?: string | null;
-    button?:
-      | {
-          button: {
-            label: string;
-            url: string;
-            newTab?: boolean | null;
-            variant?: ('default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link') | null;
-            size?: ('default' | 'sm' | 'lg' | 'icon') | null;
-          };
-          id?: string | null;
-        }[]
-      | null;
-    image?: (string | null) | Media;
-    id?: string | null;
-    blockName?: string | null;
-    blockType: 'hero';
-  }[];
+  layout?:
+    | {
+        headline?: string | null;
+        text?: string | null;
+        button?:
+          | {
+              button: {
+                label: string;
+                url: string;
+                newTab?: boolean | null;
+                variant?: ('default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link') | null;
+                size?: ('default' | 'sm' | 'lg' | 'icon') | null;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        image?: (number | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'hero';
+      }[]
+    | null;
   meta?: {
     title?: string | null;
     description?: string | null;
-    image?: (string | null) | Media;
+    image?: (number | null) | Media;
   };
   updatedAt: string;
   createdAt: string;
@@ -151,11 +151,11 @@ export interface Page {
  * via the `definition` "posts".
  */
 export interface Post {
-  id: string;
+  id: number;
   title: string;
   slug: string;
-  createdBy?: (string | null) | User;
-  featuredImage?: (string | null) | Media;
+  createdBy?: (number | null) | User;
+  featuredImage?: (number | null) | Media;
   body?: {
     root: {
       type: string;
@@ -174,7 +174,7 @@ export interface Post {
   meta?: {
     title?: string | null;
     description?: string | null;
-    image?: (string | null) | Media;
+    image?: (number | null) | Media;
   };
   updatedAt: string;
   createdAt: string;
@@ -185,28 +185,28 @@ export interface Post {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'pages';
-        value: string | Page;
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'posts';
-        value: string | Post;
+        value: number | Post;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -216,10 +216,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -239,7 +239,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -252,7 +252,6 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   avatar?: T;
-  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -269,7 +268,6 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
-  _key?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -391,8 +389,8 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "header".
  */
 export interface Header {
-  id: string;
-  logo?: (string | null) | Media;
+  id: number;
+  logo?: (number | null) | Media;
   primaryMenu?:
     | {
         label?: string | null;
@@ -419,28 +417,8 @@ export interface Header {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: string;
-  logo: string | Media;
-  footerContact?: {
-    title?: string | null;
-    email?: string | null;
-    phone?: string | null;
-    street?: string | null;
-    city?: string | null;
-    state?: string | null;
-    zip?: string | null;
-  };
-  copyright?: string | null;
-  legal?:
-    | {
-        link: {
-          label: string;
-          url: string;
-          newTab?: boolean | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  id: number;
+  logo: number | Media;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -450,7 +428,7 @@ export interface Footer {
  * via the `definition` "site-settings".
  */
 export interface SiteSetting {
-  id: string;
+  id: number;
   socialMedia?: {
     facebook?: string | null;
     instagram?: string | null;
@@ -497,30 +475,6 @@ export interface HeaderSelect<T extends boolean = true> {
  */
 export interface FooterSelect<T extends boolean = true> {
   logo?: T;
-  footerContact?:
-    | T
-    | {
-        title?: T;
-        email?: T;
-        phone?: T;
-        street?: T;
-        city?: T;
-        state?: T;
-        zip?: T;
-      };
-  copyright?: T;
-  legal?:
-    | T
-    | {
-        link?:
-          | T
-          | {
-              label?: T;
-              url?: T;
-              newTab?: T;
-            };
-        id?: T;
-      };
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

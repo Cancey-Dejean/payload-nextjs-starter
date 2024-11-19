@@ -6,7 +6,7 @@ export const slugGeneratorField: Field = {
   admin: {
     position: "sidebar",
     components: {
-      Field: "/components/slug-generator",
+      Field: "/utils/slug-generator",
     },
   },
 };
