@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import { Media, Page } from "@/payload-types";
-import { RenderSections } from "@/utils/renderSections";
 import { Metadata } from "next";
 import { queryPageBySlug } from "@/lib/queries";
-import { RefreshRouteOnSave as PayloadLivePreview } from "@payloadcms/live-preview-react";
+
 import AddContent from "@/utils/add-content";
 import { RenderBlocks } from "@/utils/renderBlocks";
+import { RefreshRouteOnSave } from "@payloadcms/live-preview-react";
 
 export async function generateMetadata({
   params,

@@ -1,6 +1,7 @@
 import { Hero } from "@/blocks/Hero/schema";
 import { VERSION_INTERVAL } from "@/constants";
 import { slugGeneratorField } from "@/lib/fields/slugGeneratorField";
+import { getServerSideURL } from "@/utils/getURL";
 
 import { CollectionConfig } from "payload";
 
@@ -8,6 +9,9 @@ export const Pages: CollectionConfig = {
   slug: "pages",
   admin: {
     useAsTitle: "title",
+    livePreview: {
+      url: ({ data }) => `${getServerSideURL()}/${data?.slug}`,
+    },
   },
   access: {
     read: ({ req }) => {

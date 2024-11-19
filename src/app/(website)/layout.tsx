@@ -4,13 +4,14 @@ import { inter } from "@/utils/fonts";
 import { PreviewMode } from "@/utils/preview-mode";
 import Footer from "@/components/ui/Footer";
 import Header from "@/components/ui/Header";
+import { LivePreviewListener } from "@/utils/live-preview-listener";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { isEnabled: isDraftMode } = await draftMode();
+  // const { isEnabled: isDraftMode } = await draftMode();
   return (
     <html lang="en">
       <body className={`${inter.variable} font-circular`}>
@@ -19,7 +20,9 @@ export default async function RootLayout({
           <main role="main">{children}</main>
           <Footer />
         </div>
-        {isDraftMode && <PreviewMode />}
+        {/* {isDraftMode && <PreviewMode />} */}
+
+        <LivePreviewListener />
       </body>
     </html>
   );

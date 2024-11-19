@@ -40,7 +40,6 @@ export async function generateMetadata({
 }
 
 // revalidates every hour
-// export const revalidate = 3600;
 
 export default async function PostPage({
   params,

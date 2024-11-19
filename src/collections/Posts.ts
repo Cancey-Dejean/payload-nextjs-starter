@@ -5,6 +5,7 @@ import { VERSION_INTERVAL } from "@/constants";
 import { isAdminOrCreatedBy } from "@/lib/access/isAdminOrCreatedBy";
 import { isAdminOrEditorOrCreatedBy } from "@/lib/access/isAdminOrEditorOrCreatedBy";
 import { slugGeneratorField } from "@/lib/fields/slugGeneratorField";
+import { getServerSideURL } from "@/utils/getURL";
 
 import { CollectionConfig } from "payload";
 

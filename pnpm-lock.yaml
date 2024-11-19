@@ -15,6 +15,9 @@ importers:
       '@payloadcms/db-sqlite':
         specifier: latest
         version: 3.0.0(payload@3.0.0(graphql@16.9.0)(monaco-editor@0.52.0)(react-dom@19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020))(react@19.0.0-rc-65a56d0e-20241020)(typescript@5.6.3))(react@19.0.0-rc-65a56d0e-20241020)(types-react@19.0.0-rc.1)
+      '@payloadcms/live-preview-react':
+        specifier: 3.0.0
+        version: 3.0.0(react-dom@19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020))(react@19.0.0-rc-65a56d0e-20241020)
       '@payloadcms/next':
         specifier: latest
         version: 3.0.0(graphql@16.9.0)(monaco-editor@0.52.0)(next@15.0.0(react-dom@19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020))(react@19.0.0-rc-65a56d0e-20241020)(sass@1.77.4))(payload@3.0.0(graphql@16.9.0)(monaco-editor@0.52.0)(react-dom@19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020))(react@19.0.0-rc-65a56d0e-20241020)(typescript@5.6.3))(react-dom@19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020))(react@19.0.0-rc-65a56d0e-20241020)(types-react@19.0.0-rc.1)(typescript@5.6.3)
@@ -39,6 +42,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
       graphql:
         specifier: ^16.8.1
         version: 16.9.0
@@ -1277,6 +1283,15 @@ packages:
     peerDependencies:
       graphql: ^16.8.1
       payload: 3.0.0
+
+  '@payloadcms/live-preview-react@3.0.0':
+    resolution: {integrity: sha512-R3oVvOHoJDceoFlCbbSKZCDRYNRN/df6eABDws/w5UDyUPsVxEZoJxxxcuAcg8NkRzYvve4PzWXf5jbJNFM0mQ==}
+    peerDependencies:
+      react: ^19.0.0 || ^19.0.0-rc-65a56d0e-20241020
+      react-dom: ^19.0.0 || ^19.0.0-rc-65a56d0e-20241020
+
+  '@payloadcms/live-preview@3.0.0':
+    resolution: {integrity: sha512-gGsBBbyEn0WJWrANs6YNQJkpav1nQzj3B0Qdxr2kcnZzfnex/tPMrqN9lZTeSUFpBcgVydDSO6zgX84SoS8tew==}
 
   '@payloadcms/next@3.0.0':
     resolution: {integrity: sha512-DkfjgUTCAmuQ+8shqu/LIueDD23g2ZsyiwG+i0WvlPj1Fdoi/g/CUj8fVdrGPKSyceUELAJAs9B7cYsqHMej8w==}
@@ -5849,6 +5864,14 @@ snapshots:
       tsx: 4.19.2
     transitivePeerDependencies:
       - typescript
+
+  '@payloadcms/live-preview-react@3.0.0(react-dom@19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020))(react@19.0.0-rc-65a56d0e-20241020)':
+    dependencies:
+      '@payloadcms/live-preview': 3.0.0
+      react: 19.0.0-rc-65a56d0e-20241020
+      react-dom: 19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020)
+
+  '@payloadcms/live-preview@3.0.0': {}
 
   '@payloadcms/next@3.0.0(graphql@16.9.0)(monaco-editor@0.52.0)(next@15.0.0(react-dom@19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020))(react@19.0.0-rc-65a56d0e-20241020)(sass@1.77.4))(payload@3.0.0(graphql@16.9.0)(monaco-editor@0.52.0)(react-dom@19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020))(react@19.0.0-rc-65a56d0e-20241020)(typescript@5.6.3))(react-dom@19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020))(react@19.0.0-rc-65a56d0e-20241020)(types-react@19.0.0-rc.1)(typescript@5.6.3)':
     dependencies:
