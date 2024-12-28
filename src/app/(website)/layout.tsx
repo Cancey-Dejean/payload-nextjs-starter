@@ -11,16 +11,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const { isEnabled: isDraftMode } = await draftMode();
+  const { isEnabled: isDraftMode } = await draftMode();
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-circular`}>
+      <body className={`${inter.variable}`}>
         <div className="grid min-h-[100dvh] grid-rows-[auto_1fr_auto]">
           <Header />
           <main role="main">{children}</main>
           <Footer />
         </div>
-        {/* {isDraftMode && <PreviewMode />} */}
+        {isDraftMode && <PreviewMode />}
 
         <LivePreviewListener />
       </body>

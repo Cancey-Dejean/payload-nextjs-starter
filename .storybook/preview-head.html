@@ -1,0 +1,37 @@
+<!-- Pull in static files served from your Static directory or the internet -->
+<!-- Example: `main.js|ts` is configured with staticDirs: ['../public'] and your font is located in the `fonts` directory inside your `public` directory -->
+
+
+<!--<link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--<link-->
+<!--  href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"-->
+<!--  rel="stylesheet">-->
+
+<link rel="preload" href="/fonts/InterVariable.woff2" as="font" />
+
+<style>
+  @font-face {
+    font-family: "Inter";
+    src: url("/fonts/InterVariable.woff2") format("woff2");
+    font-weight: 300 400 500 600 700;
+  }
+
+  body {
+    margin: 0 auto !important;
+    font-family: "Inter", sans-serif !important;
+  }
+
+  button,
+  input,
+  select,
+  optgroup,
+  textarea,
+  ::file-selector-button {
+    font: inherit !important;
+  }
+
+  .css-qa4clq :where(div:not(.sb-anchor, .sb-unstyled, .sb-unstyled div)) {
+    font-family: "Inter", sans-serif !important;
+  }
+</style>

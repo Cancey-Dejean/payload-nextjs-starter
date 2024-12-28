@@ -30,7 +30,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   globals: {
     header: Header;
@@ -74,9 +74,8 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   name?: string | null;
-  avatar?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -93,8 +92,9 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   alt: string;
+  _key?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -112,9 +112,8 @@ export interface Media {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: number;
+  id: string;
   title: string;
-  slug: string;
   layout?:
     | {
         headline?: string | null;
@@ -131,7 +130,7 @@ export interface Page {
               id?: string | null;
             }[]
           | null;
-        image?: (number | null) | Media;
+        image?: (string | null) | Media;
         id?: string | null;
         blockName?: string | null;
         blockType: 'hero';
@@ -139,9 +138,15 @@ export interface Page {
     | null;
   meta?: {
     title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
     description?: string | null;
-    image?: (number | null) | Media;
   };
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -151,11 +156,11 @@ export interface Page {
  * via the `definition` "posts".
  */
 export interface Post {
-  id: number;
+  id: string;
   title: string;
   slug: string;
-  createdBy?: (number | null) | User;
-  featuredImage?: (number | null) | Media;
+  createdBy?: (string | null) | User;
+  featuredImage?: (string | null) | Media;
   body?: {
     root: {
       type: string;
@@ -171,11 +176,6 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    image?: (number | null) | Media;
-  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -185,28 +185,28 @@ export interface Post {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: string;
   document?:
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: number | Media;
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'pages';
-        value: number | Page;
+        value: string | Page;
       } | null)
     | ({
         relationTo: 'posts';
-        value: number | Post;
+        value: string | Post;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -216,10 +216,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -239,7 +239,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -251,7 +251,6 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
-  avatar?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -268,6 +267,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  _key?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -286,8 +286,6 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
-  slugGenerator?: T;
   layout?:
     | T
     | {
@@ -318,12 +316,13 @@ export interface PagesSelect<T extends boolean = true> {
   meta?:
     | T
     | {
-        overview?: T;
         title?: T;
-        description?: T;
         image?: T;
-        preview?: T;
+        description?: T;
       };
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -335,19 +334,9 @@ export interface PagesSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
-  slugGenerator?: T;
   createdBy?: T;
   featuredImage?: T;
   body?: T;
-  meta?:
-    | T
-    | {
-        overview?: T;
-        title?: T;
-        description?: T;
-        image?: T;
-        preview?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -389,8 +378,8 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "header".
  */
 export interface Header {
-  id: number;
-  logo?: (number | null) | Media;
+  id: string;
+  logo?: (string | null) | Media;
   primaryMenu?:
     | {
         label?: string | null;
@@ -417,8 +406,8 @@ export interface Header {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: number;
-  logo: number | Media;
+  id: string;
+  logo: string | Media;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -428,7 +417,7 @@ export interface Footer {
  * via the `definition` "site-settings".
  */
 export interface SiteSetting {
-  id: number;
+  id: string;
   socialMedia?: {
     facebook?: string | null;
     instagram?: string | null;
