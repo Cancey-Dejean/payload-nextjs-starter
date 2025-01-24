@@ -1,6 +1,5 @@
 // storage-adapter-import-placeholder
-import { mongooseAdapter } from "@payloadcms/db-mongodb";
-import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
+import { sqliteAdapter } from "@payloadcms/db-sqlite";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload";
@@ -56,19 +55,21 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URI || "",
+  db: sqliteAdapter({
+    client: {
+      url: process.env.DATABASE_URI || "",
+    },
   }),
   sharp,
   plugins: [
-    uploadthingStorage({
-      collections: {
-        [Media.slug]: true,
-      },
-      options: {
-        token: process.env.UPLOADTHING_TOKEN,
-        acl: 'public-read',
-      },
+    seoPlugin({
+      collections: ["pages", "posts"],
+      uploadsCollection: "media",
+      generateTitle: ({ doc }) => `Website.com — ${doc.title}`,
+      generateDescription: ({ doc }) => doc.description,
+      generateImage: ({ doc }) => doc?.image?.url,
+      generateURL: ({ doc, collectionSlug }) =>
+        `https://yoursite.com/${collectionSlug}/${doc?.slug}`,
     }),
   ],
 });
