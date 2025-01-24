@@ -7,6 +7,8 @@ import { format } from "date-fns";
 import { queryPostBySlug } from "@/lib/queries";
 import Image from "next/image";
 import { Suspense } from "react";
+import { LivePreviewListener } from "@/utils/live-preview-listener";
+import { draftMode } from "next/headers";
 
 export async function generateMetadata({
   params,
@@ -46,6 +48,7 @@ export default async function PostPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  const { isEnabled: isDraftMode } = await draftMode();
   const resolvedParams = await params;
   let post: Post | null;
 
@@ -62,31 +65,35 @@ export default async function PostPage({
   // console.log(post);
 
   return (
-    <article className="prose max-w-full">
-      <Container>
-        <Suspense fallback={<div>Loading...</div>}>
-          {featuredImage && (
-            <div className="group relative mb-8 h-[500px] w-full overflow-hidden rounded-[44px]">
-              <Image
-                src={(featuredImage as Media)?.url || ""}
-                alt={(featuredImage as Media)?.alt || ""}
-                fill
-                className="ken-burns m-0 object-cover"
-              />
-            </div>
+    <>
+      <article className="prose max-w-full">
+        <Container>
+          <Suspense fallback={<div>Loading...</div>}>
+            {featuredImage && (
+              <div className="group relative mb-8 h-[500px] w-full overflow-hidden rounded-[44px]">
+                <Image
+                  src={(featuredImage as Media)?.url || ""}
+                  alt={(featuredImage as Media)?.alt || ""}
+                  fill
+                  className="ken-burns m-0 object-cover"
+                />
+              </div>
+            )}
+          </Suspense>
+
+          <h1>{title}</h1>
+
+          {createdAt && (
+            <p className="text-sm text-muted-foreground">
+              {format(new Date(createdAt), "MMMM d, yyyy")}
+            </p>
           )}
-        </Suspense>
 
-        <h1>{title}</h1>
+          <RichText content={body as any} />
+        </Container>
+      </article>
 
-        {createdAt && (
-          <p className="text-sm text-muted-foreground">
-            {format(new Date(createdAt), "MMMM d, yyyy")}
-          </p>
-        )}
-
-        <RichText content={body as any} />
-      </Container>
-    </article>
+      {isDraftMode && <LivePreviewListener />}
+    </>
   );
 }

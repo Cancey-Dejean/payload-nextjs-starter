@@ -5,20 +5,25 @@ import { VERSION_INTERVAL } from "@/constants";
 import { isAdminOrCreatedBy } from "@/lib/access/isAdminOrCreatedBy";
 import { isAdminOrEditorOrCreatedBy } from "@/lib/access/isAdminOrEditorOrCreatedBy";
 import { slugGeneratorField } from "@/lib/fields/slugGeneratorField";
+
 import { getServerSideURL } from "@/utils/getURL";
 
 import { CollectionConfig } from "payload";
 
-export const Posts: CollectionConfig = {
+export const Posts: CollectionConfig<"posts"> = {
   slug: "posts",
   admin: {
     useAsTitle: "title",
+    livePreview: {
+      url: ({ data }) => `${getServerSideURL()}/blog/${data?.slug}`,
+    },
   },
   access: {
     read: isAdminOrEditorOrCreatedBy,
     update: isAdminOrEditorOrCreatedBy,
     delete: isAdminOrCreatedBy,
   },
+
   fields: [
     {
       name: "title",

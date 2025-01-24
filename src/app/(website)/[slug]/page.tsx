@@ -6,6 +6,7 @@ import { queryPageBySlug } from "@/lib/queries";
 import AddContent from "@/utils/add-content";
 import { RenderBlocks } from "@/utils/renderBlocks";
 import { RefreshRouteOnSave } from "@payloadcms/live-preview-react";
+import { LivePreviewListener } from "@/utils/live-preview-listener";
 
 export async function generateMetadata({
   params,
@@ -68,6 +69,7 @@ export default async function PageContent({
       ) : (
         <AddContent />
       )}
+      <LivePreviewListener />
     </>
   );
 }
